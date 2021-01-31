@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+<form action="/login" method="post">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="inputPassword6" class="col-form-label">Password</label>
+        </div>
+        <div class="col-auto">
+        <input type="password" class="form-control" name="master_password" id="master_password" aria-describedby="passwordHelpInline">
+        </div>
+        <div class="col-auto">
+            <input type="submit" class="btn btn-outline-primary" name = "submit" id = "submit" value="Log-in">
+        </div>
+        <div class="col-auto">
+          <span id="passwordHelpInline" class="form-text">
+           Enter master password. 
+          </span>
+        </div>
+      </div>
+</form>
+{{status}}
+{% endblock %}

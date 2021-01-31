@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block style %}
+th {
+    background-color: #5EB1BF;
+    color: #FCFCFC;
+}
+th,td {
+    text-align: center;
+}
+{% endblock %}
+{% block body %}
+{%if data and username%}
+<div class='d-flex flex-row bd-highlight mb-3'>
+    {%for k,v in totals.items()%}
+    <div class="p-2 bd-highlight">{{k.capitalize()}} : {{v}}</div>
+   {% endfor %} 
+</div>
+
+<div class='d-flex flex-row bd-highlight mb-3'>
+    {%for k,v in measurements.items()%}
+    <div class="p-2 bd-highlight">{{k.capitalize()}} : {{v[0]}}</div>
+   {% endfor %} 
+</div>
+{% endif %}
+{% endblock %}
