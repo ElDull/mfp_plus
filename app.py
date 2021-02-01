@@ -1,14 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for,jsonify, session 
 import importlib
+from time import sleep
 from hashlib import md5
 mfp = importlib.import_module("scrape_mfp")
 
 app = Flask(__name__)
 app.config.from_object('config.DevConfig')
-
 session = {}
 @app.route('/', methods= ["GET"])
 def index():
+    if 'username' in session and 'data' not in session:
+        username = session['username']
+        return render_template('index.html', username=username) 
     if 'username' in session and 'data' in session:
         username = session['username']
         totals = session['data']['totals']
@@ -16,7 +19,7 @@ def index():
 
         return render_template('index.html', username=username,
         totals=totals,
-        measurements=measurements
+        measurements=measurements,
         )
     else:
         return redirect(url_for('login'))
@@ -54,7 +57,7 @@ def load_ajax():
     measurements = {'measurements':request.json['measurements']}
 
     session["data"] = {**totals, **measurements} 
-    return 
+    return redirect(url_for('index')) 
 
 if __name__ == "__main__":
     app.run(debug=True)
