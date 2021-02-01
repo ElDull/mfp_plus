@@ -54,8 +54,7 @@ def load_ajax():
     measurements = {'measurements':request.json['measurements']}
 
     session["data"] = {**totals, **measurements} 
-    return redirect(url_for('index')) 
-
+    return 
 
 if __name__ == "__main__":
     app.run(debug=True)
