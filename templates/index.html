@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block head %}
+<script src='static/refresh_page.js'></script>
+{% endblock %}
 {% block style %}
 th {
     background-color: #5EB1BF;
@@ -9,7 +12,7 @@ th,td {
 }
 {% endblock %}
 {% block body %}
-{%if data and username%}
+{%if totals and username%}
 <div class='d-flex flex-row bd-highlight mb-3'>
     {%for k,v in totals.items()%}
     <div class="p-2 bd-highlight">{{k.capitalize()}} : {{v}}</div>

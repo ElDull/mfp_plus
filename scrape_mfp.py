@@ -49,7 +49,7 @@ def get_totals():
   totals = browser.page.find("tr", attrs={"class":'total'})
   values = [i.text.replace("\n", "").split()[0] for i in totals.find_all("td") if len(i) > 0][1:]
   titles = ["calories", "carbs","fat", "protein", "fiber", "sugar"]
-  mapped = {k:int(v) for k,v in zip(titles,values)}
+  mapped = {k:int(v.replace(',','')) for k,v in zip(titles,values)}
   return mapped
 
 

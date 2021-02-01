@@ -4,22 +4,20 @@ from hashlib import md5
 mfp = importlib.import_module("scrape_mfp")
 
 app = Flask(__name__)
-app.secret_key = "a random string"
+app.config.from_object('config.DevConfig')
 
 session = {}
 @app.route('/', methods= ["GET"])
 def index():
     if 'username' in session and 'data' in session:
         username = session['username']
-        data = session['data']
-
-        totals = { **data['totals'], **{'exercise': data['exercise']} }
-        measurements = data['measurements']
+        totals = session['data']['totals']
+        measurements = session['data']['measurements']
 
         return render_template('index.html', username=username,
-        data=data,
-        totals = totals,
-        measurements = measurements)
+        totals=totals,
+        measurements=measurements
+        )
     else:
         return redirect(url_for('login'))
         
@@ -36,7 +34,6 @@ def login():
         status = mfp.login(result)
         if status == "":
             session['username'] = md5('eli'.encode()).hexdigest()
-            session['data'] = mfp.get_all()
             return redirect(url_for('index'))
         else:
             return render_template("login.html", status=status)
@@ -51,9 +48,13 @@ def api():
 
 @app.route('/load_ajax', methods=["POST"])
 def load_ajax():
-    session["data"] = request.json["data"]
-    #print(session['data'])
-    return redirect(url_for('home')) 
+    totals = {'totals':request.json["totals"]}
+    exercise = {'exercise': request.json['exercise']}
+    totals['totals'].update(exercise)
+    measurements = {'measurements':request.json['measurements']}
+
+    session["data"] = {**totals, **measurements} 
+    return redirect(url_for('index')) 
 
 
 if __name__ == "__main__":
