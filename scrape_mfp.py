@@ -18,7 +18,11 @@ from passman import get_for_service
 
 BASE_URL = "https://www.myfitnesspal.com"
 
-browser = mechanicalsoup.StatefulBrowser()
+browser = mechanicalsoup.StatefulBrowser(
+    soup_config={'features': 'lxml'},  # Use the lxml HTML parser
+    raise_on_404=True,
+    user_agent='Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
+)
 def get_all():
   return {"totals": get_totals(), "exercise":get_exercise(), "measurements":get_measurements()}
 def login(master_password):
@@ -70,3 +74,4 @@ def get_measurements():
   vals = [(float(x),y) for x,y in zip(values, dates)]
   mapped = {k:v for k,v in zip(titles, vals)}
   return mapped
+
