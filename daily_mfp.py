@@ -10,14 +10,23 @@ master_password = getpass()
 status = mfp.login(master_password)
 if status == "":
     print("login successful")
+
 def job(t):
-    today = date.today()
+    json_path = f"{HOME}/db.json"
+
+    today = dates.today()
+    
+    with open(json_path,'w' ) as db:
+        data = json.load(db)    
+
     d = {today.strftime("%d-%m-%Y"):mfp.get_all()}
-    with open(f'{HOME}/db.json','w' ) as db:
+    d = {**d, **data}
+    with open(json_path,'w' ) as db:
         json.dump(d,db)
     print(t)
     return
-schedule.every().day.at("21:45").do(job, "it is 01:00")
+
+schedule.every().day.at("23:45").do(job, "it is time to log")
 
 while True:
     schedule.run_pending()
