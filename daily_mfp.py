@@ -26,7 +26,7 @@ def job(t):
     print(t)
     return
 
-schedule.every().day.at("23:45").do(job, "it is time to log")
+schedule.every().day.at("21:45").do(job, "it is time to log")
 
 while True:
     schedule.run_pending()
