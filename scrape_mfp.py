@@ -13,6 +13,7 @@ import mechanicalsoup
 import json
 import importlib
 from sys import path
+from datetime import date
 path.append('/home/eli/fun/self/passman')
 from passman import get_for_service
 
@@ -71,9 +72,8 @@ def get_measurements():
   titles = [i.text for i in browser.page.find_all("td", attrs={"class":"first"})[1:]]
   values = [i.text.replace("\n", "").replace("\t", "").split()[0] for i in browser.page.find_all("td", attrs={"class":"col-num"})[2:]]
   dates = [i.text.replace("\n", "").replace("\t", "").split()[2] for i in browser.page.find_all("td", attrs={"class":"col-num"})[2:]]
-  titles.append("Weight")
-  values.append(weight)
   vals = [(float(x),y) for x,y in zip(values, dates)]
   mapped = {k:v for k,v in zip(titles, vals)}
+  mapped.update({"Weight":[weight, date.today().strftime("%-m/%-d/%Y")]})
   return mapped
 

@@ -14,7 +14,7 @@ if status == "":
 def job(t):
     json_path = f"{HOME}/db.json"
 
-    today = dates.today()
+    today = date.today()
     
     with open(json_path,'w' ) as db:
         data = json.load(db)    
